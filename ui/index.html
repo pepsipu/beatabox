@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <meta charset="UTF-8">
+    <title>BeatABox</title>
+</head>
+<style>
+    body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 14px;
+        font-family: sans-serif;
+        color: white;
+        background: #1b1e21;
+    }
+</style>
+<body>
+<script>
+    const fs = require("fs");
+    function saveLocation() {
+        let config = require("../config");
+        config.BSLocation = document.getElementById("bs-location").value;
+        fs.writeFileSync("./config.json", JSON.stringify(config));
+    }
+</script>
+<label id="bs-label" class="m-1" for="bs-location">Please input your BeatSaber location:</label>
+<input type="text" class="form-control m-1" id="bs-location" placeholder="D:\VRGames\Software\hyperbolic-magnetism-beat-saber">
+<button type="button" class="btn btn-primary m-1" onclick="saveLocation()">Save</button>
+<br>
+<div id="dragdrop" class="rounded mx-auto" style="width: 100px; height: 100px; padding: 100px; background: #3b3e42; position: relative;">
+    <h1 style="color: #1b1e21; font-size: 100px; right: 0; position: absolute;">+</h1>
+</div>
+<script>
+let bsLocation = require("../config").BSLocation;
+if (bsLocation) {
+    document.getElementById("bs-location").value = bsLocation;
+}
+const dragDrop = require("drag-drop");
+const admZip = require("adm-zip");
+dragDrop("#dragdrop", (files, pos, fileList, directories) => {
+    files.forEach(file => {
+        let zip = admZip(file.path);
+        let songName = JSON.parse(zip.readAsText("info.dat"))._songName;
+        let songPath = require("../config").BSLocation + "\\Beat Saber_Data\\CustomLevels\\" + songName;
+        zip.extractAllTo(songPath, true);
+    });
+});
+</script>
+</body>
+</html>

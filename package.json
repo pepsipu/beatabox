@@ -1,0 +1,21 @@
+{
+  "name": "beatabox",
+  "version": "1.0.0",
+  "description": "BeatABox takes zipped Beat Saber songs and extracts them to your Beat Saber song directory.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "pack":"electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "com.pepsipu",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "latest"
+  },
+  "dependencies": {
+    "adm-zip": "^0.4.13",
+    "drag-drop": "^4.2.0"
+  }
+}
